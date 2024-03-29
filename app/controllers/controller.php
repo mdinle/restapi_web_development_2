@@ -8,14 +8,14 @@ use \Firebase\JWT\Key;
 
 class Controller
 {
-    function respond($data)
+    public function respond($data)
     {
         $this->respondWithCode(200, $data);
     }
 
-    function respondWithError($httpcode, $message)
+    public function respondWithError($httpcode, $message)
     {
-        $data = array('errorMessage' => $message);
+        $data = array('error' => $message);
         $this->respondWithCode($httpcode, $data);
     }
 
@@ -26,7 +26,7 @@ class Controller
         echo json_encode($data);
     }
 
-    function createObjectFromPostedJson($className)
+    public function createObjectFromPostedJson($className)
     {
         $json = file_get_contents('php://input');
         $data = json_decode($json);
