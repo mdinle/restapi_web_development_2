@@ -10,26 +10,21 @@ use Repositories\Repository;
 
 class ProductRepository extends Repository
 {
-    function getAll($offset = NULL, $limit = NULL)
+    function getAll()
     {
         try {
-            $query = "SELECT product.*, category.name as category_name FROM product INNER JOIN category ON product.category_id = category.id";
-            if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
-            }
+            $query = "SELECT * FROM `Products`";
+
             $stmt = $this->connection->prepare($query);
-            if (isset($limit) && isset($offset)) {
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            }
             $stmt->execute();
 
             $products = array();
-            while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {               
+            while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
                 $products[] = $this->rowToProduct($row);
             }
 
             return $products;
+
         } catch (PDOException $e) {
             echo $e;
         }
@@ -55,17 +50,18 @@ class ProductRepository extends Repository
 
     function rowToProduct($row) {
         $product = new Product();
-        $product->id = $row['id'];
+        $product->id = $row['product_id'];
         $product->name = $row['name'];
         $product->price = $row['price'];
-        $product->description = $row['description'];
-        $product->image = $row['image'];
-        $product->category_id = $row['category_id'];
-        $category = new Category();
-        $category->id = $row['category_id'];
-        $category->name = $row['category_name'];
+        $product->stock = $row['stock'];
+//        $product->description = $row['description'];
+        $product->image = $row['image_url'];
+//        $product->category_id = $row['category_id'];
+//        $category = new Category();
+//        $category->id = $row['category_id'];
+//        $category->name = $row['category_name'];
 
-        $product->category = $category;
+//        $product->category = $category;
         return $product;
     }
 

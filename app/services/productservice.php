@@ -12,8 +12,8 @@ class ProductService {
         $this->repository = new ProductRepository();
     }
 
-    public function getAll($offset = NULL, $limit = NULL) {
-        return $this->repository->getAll($offset, $limit);
+    public function getAll() {
+        return $this->repository->getAll();
     }
 
     public function getOne($id) {
