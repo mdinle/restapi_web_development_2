@@ -4,14 +4,19 @@ namespace Services;
 use Exception;
 use Repositories\UserRepository;
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class UserService
 {
 
     private $repository;
+    private $jwtSecret;
 
     public function __construct()
     {
+        require __DIR__ . '/../dbconfig.php';
+        
+        $this->jwtSecret = $jwtSecret;
         $this->repository = new UserRepository();
     }
 
@@ -38,14 +43,18 @@ class UserService
 
     public function createToken($data)
     {
-        $jwtSecret = (string)getenv('JWT_SECRET');
-        return JWT::encode(['id' => $data->id], $jwtSecret, 'HS256');
+        return JWT::encode(['id' => $data->id], $this->jwtSecret, 'HS256');
     }
 
     public function decodeToken($token)
     {
-        $jwtSecret = (string)getenv('JWT_SECRET');
-        return JWT::decode($token, $jwtSecret, ['HS256']);
+        try {
+            $newToken = JWT::decode($token, new Key($this->jwtSecret, 'HS256'));
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return true;
     }
 
     public function validatePassword($password)
