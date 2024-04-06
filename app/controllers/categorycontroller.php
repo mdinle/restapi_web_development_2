@@ -3,28 +3,26 @@
 namespace Controllers;
 
 use Exception;
-use Services\ProductService;
+use Services\CategoryService;
 use Services\AuthService;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
-    private $service;
+    private $categoryService;
     private $authService;
 
     public function __construct()
     {
-        $this->service = new ProductService();
+        $this->categoryService = new CategoryService();
         $this->authService = new AuthService();
-        
     }
 
     public function getAll()
     {
         try {
-
             $this->authService->decodeToken($this->authService->getBearerToken());
-            $this->respond($this->service->getAll());
-
+            $categories = $this->categoryService->getAll();
+            $this->respond($categories);
         } catch (Exception $e) {
             $this->respondWithError(400, $e->getMessage());
         }

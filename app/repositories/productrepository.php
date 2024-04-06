@@ -61,11 +61,11 @@ class ProductRepository extends Repository
         $product->stock = $row['stock'];
         $product->image = $row['image_url'];
         $category = new Category();
-        $category->id = $row['category_id'];
-        $category->name = $row['category_name'];
+        $category->category_id = $row['category_id'];
+        $category->category_name = $row['category_name'];
         $brand = new Brand();
         $brand->brand_id = $row['brand_id'];
-        $brand->name = $row['brand_name'];
+        $brand->brand_name = $row['brand_name'];
 
 
         $product->brand = $brand;

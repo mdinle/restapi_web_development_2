@@ -31,6 +31,10 @@ $router->delete('/categories/(\d+)', 'CategoryController@delete');
 // routes for the users endpoint
 $router->post('/register', 'UserController@signup');
 $router->post('/login', 'UserController@login');
+$router->get('/users', 'UserController@getUsers');
+
+// routes for the brands endpoint
+$router->get('/brands', 'BrandController@getAll');
 
 // Run it!
 $router->run();

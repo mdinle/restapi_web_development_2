@@ -1,11 +1,10 @@
 <?php
 namespace Models;
 
-class Category {
+class Category
+{
 
-    public int $id;
-    public string $name;
-  
+    public int $category_id;
+    public string $category_name;
+
 }
-
-?>

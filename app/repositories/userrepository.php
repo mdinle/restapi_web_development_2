@@ -76,6 +76,21 @@ class UserRepository extends Repository
         }
     }
 
+    public function getUsers()
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT id, username, email, created_at, status FROM user");
+            $stmt->execute();
+
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\User');
+            $users = $stmt->fetchAll();
+
+            return $users;
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     // hash the password (currently uses bcrypt)
     public function hashPassword($password)
     {

@@ -1,16 +1,15 @@
 <?php
 namespace Services;
 
-use Repositories\CategoryRepository;
+use Repositories\BrandRepository;
 
-class CategoryService
+class BrandService
 {
-
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new CategoryRepository();
+        $this->repository = new BrandRepository();
     }
 
     public function getAll()

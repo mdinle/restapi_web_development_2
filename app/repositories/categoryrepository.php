@@ -4,22 +4,16 @@ namespace Repositories;
 
 use PDO;
 use PDOException;
+use Exception;
 use Repositories\Repository;
 
 class CategoryRepository extends Repository
 {
-    function getAll($offset = NULL, $limit = NULL)
+    public function getAll()
     {
         try {
-            $query = "SELECT * FROM category";
-            if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
-            }
+            $query = "SELECT * FROM Categories";
             $stmt = $this->connection->prepare($query);
-            if (isset($limit) && isset($offset)) {
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            }
             $stmt->execute();
 
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Category');
@@ -27,11 +21,11 @@ class CategoryRepository extends Repository
 
             return $articles;
         } catch (PDOException $e) {
-            echo $e;
+            throw new Exception($e->getMessage());
         }
     }
 
-    function getOne($id)
+    public function getOne($id)
     {
         try {
             $stmt = $this->connection->prepare("SELECT * FROM category WHERE id = :id");
@@ -47,7 +41,7 @@ class CategoryRepository extends Repository
         }
     }
 
-    function insert($category)
+    public function insert($category)
     {
         try {
             $stmt = $this->connection->prepare("INSERT into category (name) VALUES (?)");
@@ -63,7 +57,7 @@ class CategoryRepository extends Repository
     }
 
 
-    function update($category, $id)
+    public function update($category, $id)
     {
         try {
             $stmt = $this->connection->prepare("UPDATE category SET name = ? WHERE id = ?");
@@ -76,7 +70,7 @@ class CategoryRepository extends Repository
         }
     }
 
-    function delete($id)
+    public function delete($id)
     {
         try {
             $stmt = $this->connection->prepare("DELETE FROM category WHERE id = :id");
