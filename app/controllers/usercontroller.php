@@ -40,7 +40,7 @@ class UserController extends Controller
             $user = $this->createObjectFromPostedJson('Models\\User');
             $result = $this->service->login($user->email, $user->password);
             if ($result) {
-                $token = $this->service->createToken($result);
+                $token = $this->authService->createToken($result);
                 $this->respond(['user' => ['username' => $result->username, 'email' => $result->email], 'token' => $token]);
             }
         } catch (Exception $e) {

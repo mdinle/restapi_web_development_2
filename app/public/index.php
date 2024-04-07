@@ -36,5 +36,8 @@ $router->get('/users', 'UserController@getUsers');
 // routes for the brands endpoint
 $router->get('/brands', 'BrandController@getAll');
 
+// routes for sizes endpoint
+$router->get('/sizes', 'SizeController@getAll');
+
 // Run it!
 $router->run();
