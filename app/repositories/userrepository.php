@@ -45,7 +45,6 @@ class UserRepository extends Repository
         }
     }
 
-
     public function checkEmailPassword($email, $password)
     {
         try {
