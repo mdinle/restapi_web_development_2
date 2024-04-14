@@ -24,12 +24,20 @@ class ProductService {
         return $this->repository->insert($item);        
     }
 
-    public function update($item, $id) {       
-        return $this->repository->update($item, $id);        
+    public function update($item) {
+        return $this->repository->update($item);
     }
 
-    public function delete($item) {       
-        return $this->repository->delete($item);        
+    public function delete($id) {
+        return $this->repository->delete($id);
+    }
+
+    public function getDetailedProduct($id){
+        return $this->repository->getDetailedProduct($id);
+    }
+
+    public function detailedProducts(){
+        return $this->repository->getDetailedProducts();
     }
 }
 

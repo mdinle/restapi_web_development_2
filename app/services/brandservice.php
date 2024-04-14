@@ -27,9 +27,9 @@ class BrandService
         return $this->repository->insert($item);
     }
 
-    public function update($item, $id)
+    public function update($item)
     {
-        return $this->repository->update($item, $id);
+        return $this->repository->update($item);
     }
 
     public function delete($item)

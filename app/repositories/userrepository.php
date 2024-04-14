@@ -90,6 +90,64 @@ class UserRepository extends Repository
         }
     }
 
+    public function deleteUser($id){
+        try {
+            $stmt = $this->connection->prepare("DELETE FROM user WHERE id = :id;");
+            $stmt->execute([
+                ":id" => $id,
+            ]);
+
+            return $stmt->rowCount() > 0;
+
+        } catch (PDOException $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function updateUser($user){
+        try{
+            $stmt = $this->connection->prepare("UPDATE user SET username = :username, status = :status, email = :email WHERE id = :id");
+            $stmt->execute([
+                ":id" => $user->id,
+                ':username' => $user->username,
+                ':status' => $user->status,
+                ':email' => $user->email,
+            ]);
+
+            return $stmt->rowCount() > 0;
+
+        }catch (PDOException $e){
+            if ($e->getCode() === '23000') {
+                if(strpos($e->getMessage(), 'username') !== false) {
+                    throw new Exception('Username already exists');
+                } elseif(strpos($e->getMessage(), 'email') !== false) {
+                    throw new Exception('Email already exist');
+                }
+            } else {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
+    public function getUser($id){
+        try {
+            $stmt = $this->connection->prepare("SELECT id, username, email, created_at, status FROM user WHERE id = :id LIMIT 1;");
+            $stmt->execute([
+                ":id" => $id
+            ]);
+
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\User');
+            $user = $stmt->fetch();
+
+            if($user){
+                return $user;
+            }
+            return false;
+        }catch (PDOException $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     // hash the password (currently uses bcrypt)
     public function hashPassword($password)
     {

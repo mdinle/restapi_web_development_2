@@ -1,16 +1,15 @@
 <?php
 namespace Services;
 
-use Repositories\CategoryRepository;
+use Repositories\StockRepository;
 
-class CategoryService
+class StockService
 {
-
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new CategoryRepository();
+        $this->repository = new StockRepository();
     }
 
     public function getAll()
@@ -18,6 +17,9 @@ class CategoryService
         return $this->repository->getAll();
     }
 
+    public function getAllHistory(){
+        return $this->repository->getAllHistory();
+    }
     public function getOne($id)
     {
         return $this->repository->getOne($id);
